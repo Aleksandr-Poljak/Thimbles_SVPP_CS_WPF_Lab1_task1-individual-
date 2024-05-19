@@ -23,6 +23,21 @@
         <Style x:Key="styleTextBlockGame" BasedOn="{StaticResource styleTextBlockUserMenu}">
             <Setter Property="TextBlock.Foreground" Value="AntiqueWhite"/>
         </Style>
+        <Style x:Key="styleButtons">
+            <Setter Property="Button.Background">
+                <Setter.Value>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="Black"/>
+                        <GradientStop Color="#FFCCD477" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Button.Foreground" Value="Black"/>
+            <Setter Property="Button.FontSize" Value="18"/>
+            <Setter Property="Button.FontFamily" Value="Verdana"/>
+            <Setter Property="Button.FontWeight" Value="Bold"/>
+           
+        </Style>
         
     </Window.Resources>
     <Grid x:Name="Grid_Main">
@@ -50,12 +65,13 @@
         <TextBlock Name="TextBlock_Header"
                    Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" 
                    FontSize="50"
-                   HorizontalAlignment="Center" Foreground="Azure">
+                   HorizontalAlignment="Center" Foreground="Azure" FontFamily="Ink Free">
             Наперстки
         </TextBlock>
 
         <Button x:Name="Button_Stir" Grid.Row="2" Grid.Column="0"
-                Margin="50 10 50 20">
+                Style="{StaticResource styleButtons}"
+                Margin="50 10 50 20" Click="Button_Stir_Click">
             Перемешать
         </Button>
 
@@ -75,11 +91,20 @@
 
             <TextBlock  Grid.Row="0" Grid.Column="0" 
                         Style="{StaticResource styleTextBlockUserMenu}"
-                        Text="Количество перемешиваний:"
+                        Text="Количество попыток:"
                         />
-            
+
             <ComboBox Name="ComboBox_NumberStirs" Grid.Row="0" Grid.Column="1"
-                      Margin="20"/>
+                      Margin="20"
+                      HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                      FontSize="16" FontWeight="Bold" SelectionChanged="ComboBox_NumberStirs_SelectionChanged"
+                      >
+                
+                    <ComboBoxItem IsSelected="True">1</ComboBoxItem>
+                    <ComboBoxItem>3</ComboBoxItem>
+                    <ComboBoxItem>5</ComboBoxItem>
+                
+            </ComboBox>
 
             <TextBlock  Grid.Row="1" Grid.Column="0" 
             Style="{StaticResource styleTextBlockUserMenu}"
@@ -91,21 +116,30 @@
                              Content="1x"
                              Margin="5" 
                              VerticalAlignment="Center" HorizontalAlignment="Center"                TextElement.FontSize="16"
-                             IsChecked="True"/>
+                             IsChecked="True" Checked="RadioButton_Checked"/>
                 <RadioButton Name="RadioButton_2x" GroupName="SpeedRadioButtons"
                              Content="2x"
                              Margin="5"
-                             VerticalAlignment="Center" HorizontalAlignment="Center"                TextElement.FontSize="16"/>
+                             VerticalAlignment="Center" HorizontalAlignment="Center"                TextElement.FontSize="16"
+                             Checked="RadioButton_Checked"/>
                 <RadioButton Name="RadioButton_3x" GroupName="SpeedRadioButtons" 
                              Content="3x"
                              Margin="5" 
-                             VerticalAlignment="Center" HorizontalAlignment="Center"                TextElement.FontSize="16"/>
+                             VerticalAlignment="Center" HorizontalAlignment="Center"                TextElement.FontSize="16"
+                             Checked="RadioButton_Checked"/>
             </StackPanel>
 
-            <Button Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="40 20 40 20"                    Content=" Старт/ Стоп"/>
-            
+            <Button Name="Button_StartEnd" 
+                    Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="40 20 40 20" 
+                    Style="{StaticResource styleButtons}" Content="Начать"
+                    Background="AntiqueWhite" Click="Button_StartEnd_Click"/>
+
+
+
             <GroupBox x:Name="GroupBox_GameText" Grid.Row="3" Grid.Column="0" 
-                      Grid.RowSpan="3" Grid.ColumnSpan="3" Margin="10 0 10 15">
+                      Grid.RowSpan="3" Grid.ColumnSpan="3" Margin="10 0 10 15"
+                      
+                      >
                 <GroupBox.Header >
                     <TextBlock FontFamily="Verdana" FontSize="20" Foreground="Aquamarine"
                                FontWeight="Bold" Text="Игра"/>
@@ -123,7 +157,7 @@
                     </Grid.ColumnDefinitions>
 
                     <TextBlock Grid.Row="0" Grid.Column="0"
-                        Style="{StaticResource styleTextBlockGame}" Text="Всего игр:"/>
+                        Style="{StaticResource styleTextBlockGame}" Text="Осталось попыток:"/>
                     
                     <TextBlock Grid.Row="1" Grid.Column="0"
                         Style="{StaticResource styleTextBlockGame}" Text="Угадано:"/>
@@ -131,9 +165,10 @@
                     <TextBlock Grid.Row="2" Grid.Column="0"
                          Style="{StaticResource styleTextBlockGame}" Text="Статус:"/>
 
-                    <TextBlock Name="TextBlock_AllGame"  Grid.Row="0" Grid.Column="1" 
+                    <TextBlock Name="TextBlock_Attempts"  Grid.Row="0" Grid.Column="1" 
                                Foreground="IndianRed"                     
-                               Style="{StaticResource styleTextBlockGame}" Text="0"/>
+                               Style="{StaticResource styleTextBlockGame}"
+                               Text="0"/>
                     
                     <TextBlock Name="TextBlock_Guessed" Grid.Row="1" Grid.Column="1" 
                                Foreground="DarkGreen"                     
