@@ -18,6 +18,10 @@ namespace SVPP_CS_WPF_Lab1_task1_individual__Thimbles
         {
             {"Start", "Начните игру" },
             {"Stir", "Перемешайте" },
+            {"Stiring", "Перемешивание" },
+            {"Select", "Выберите стакан" },
+            {"Fail", "Мимо" },
+            {"Success", "Угадал"},
         };
 
         private int numberAttempts = 1;
