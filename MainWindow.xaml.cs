@@ -12,37 +12,62 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace SVPP_CS_WPF_Lab1_task1_individual__Thimbles
 {
+    
+
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
-        public int numberAttempts = 1;
-        private int gamesPlayed = 0;
+
+        public UserGameData GameData = new UserGameData();
+
         private Dictionary<string, int> speedVariants = new() 
-        { {"1x", 3000 }, { "2x", 2000 }, { "3x", 1000 } };
+        { {"1x", 250 }, { "2x", 200 }, { "3x", 100 } };
         private int speed = 3000;
 
         public MainWindow()
         {
             InitializeComponent();
-            
-            Binding b = new Binding();
-            b.RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor, this.GetType(), 1);
-            b.Path = new PropertyPath(nameof(numberAttempts));
-            TextBlock_Attempts.SetBinding(TextBlock.TextProperty, b);
+            Grid_GameText.DataContext = GameData;
 
 
         }
-
+        /// <summary>
+        /// Обработчик нажатия копки Начать/Стоп.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Button_StartEnd_Click(object sender, RoutedEventArgs e)
         {
+            Button bt = (Button) sender;
 
+            // Если нажато Начать
+            if(bt.Content as string == "Начать")
+            {
+                bt.Content = "Стоп";               
+                Button_Stir.IsEnabled = true;
+                selectingGameOptionsEnabled(false);
+                GameData.Status = UserGameData.Statuses["Stir"];
+
+            }
+            // Если нажато Стоп.
+            else if (bt.Content as string == "Стоп") {
+                bt.Content = "Начать";
+                Button_Stir.IsEnabled = false;
+                selectingGameOptionsEnabled(true);
+                GameData.Reset();
+            }
+                       
         }
 
-        private void Button_Stir_Click(object sender, RoutedEventArgs e)
+        private async void Button_Stir_Click(object sender, RoutedEventArgs e)
         {
-
+            Button bt = (Button ) sender;
+            bt.IsEnabled = false;
+            await Thimbles.Stir(1, speed);
+            bt.IsEnabled= true;
+            
         }
         /// <summary>
         /// Обработчик выбора количества попыток.
@@ -51,13 +76,14 @@ namespace SVPP_CS_WPF_Lab1_task1_individual__Thimbles
         /// <param name="e"></param>
         private void ComboBox_NumberStirs_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            int tempNumberAttempts = -1;
             ComboBox cb = (ComboBox)sender;
             ComboBoxItem item = ( ComboBoxItem)cb.SelectedItem;
             if(item.Content is not null)
             {
                 string val = (string) item.Content;
-                Int32.TryParse(val, out numberAttempts);
-                
+                Int32.TryParse(val, out tempNumberAttempts);
+                if(tempNumberAttempts != -1) GameData.NumberAttempts = tempNumberAttempts;
             }        
         }
 
@@ -70,7 +96,20 @@ namespace SVPP_CS_WPF_Lab1_task1_individual__Thimbles
                 speedVariants.TryGetValue(speedKey, out speed);
                 
             }
-
+        }
+        /// <summary>
+        /// Включает и выключает опции выбора в игре.
+        /// </summary>
+        /// <param name="enabled"></param>
+        private void selectingGameOptionsEnabled(bool enabled)
+        {
+            // Включение и отключение выбора скорости игры (RadioButtons)
+            foreach (var item in StackPanel_RadioButtonsSpeed.Children)
+            {
+                if(item is RadioButton bt) bt.IsEnabled = enabled;
+            }
+            // Включение и отключение выбора количества попыток (Combobox)
+            ComboBox_NumberStirs.IsEnabled = enabled;
         }
     }
 }

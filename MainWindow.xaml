@@ -9,6 +9,12 @@
         Icon="Resources/icon1.ico"
         Title="Наперстки" Height="600" Width="800">
     <Window.Resources>
+        
+        <LinearGradientBrush x:Key="StartButtonBrash"  EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="Black"/>
+            <GradientStop Color="#FFCCD477" Offset="1"/>
+        </LinearGradientBrush>
+
         <Style x:Key="styleTextBlockUserMenu">
             <Setter Property="TextBlock.HorizontalAlignment" Value="Left"/>
             <Setter Property="TextBlock.VerticalAlignment" Value="Center"/>
@@ -20,23 +26,17 @@
             <Setter Property="TextBlock.FontSize" Value="17"/>
             <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
         </Style>
+        
         <Style x:Key="styleTextBlockGame" BasedOn="{StaticResource styleTextBlockUserMenu}">
             <Setter Property="TextBlock.Foreground" Value="AntiqueWhite"/>
         </Style>
+        
         <Style x:Key="styleButtons">
-            <Setter Property="Button.Background">
-                <Setter.Value>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="Black"/>
-                        <GradientStop Color="#FFCCD477" Offset="1"/>
-                    </LinearGradientBrush>
-                </Setter.Value>
-            </Setter>
+            <Setter Property="Button.Background" Value="{StaticResource StartButtonBrash}"/>
             <Setter Property="Button.Foreground" Value="Black"/>
             <Setter Property="Button.FontSize" Value="18"/>
             <Setter Property="Button.FontFamily" Value="Verdana"/>
             <Setter Property="Button.FontWeight" Value="Bold"/>
-           
         </Style>
         
     </Window.Resources>
@@ -59,7 +59,7 @@
         </Grid.ColumnDefinitions>
         <!--Пользовательский элемент упралвения из библиотеки пользовательских 
         элементов управления-->
-        <th:UserControl_Thimbles Name="thimbles" Grid.Row="1" Grid.Column="0" 
+        <th:UserControl_Thimbles Name="Thimbles" Grid.Row="1" Grid.Column="0" 
                                  Margin="10 0 0 0" />
 
         <TextBlock Name="TextBlock_Header"
@@ -71,7 +71,7 @@
 
         <Button x:Name="Button_Stir" Grid.Row="2" Grid.Column="0"
                 Style="{StaticResource styleButtons}"
-                Margin="50 10 50 20" Click="Button_Stir_Click">
+                Margin="50 10 50 20" Click="Button_Stir_Click" IsEnabled="False">
             Перемешать
         </Button>
 
@@ -168,17 +168,17 @@
                     <TextBlock Name="TextBlock_Attempts"  Grid.Row="0" Grid.Column="1" 
                                Foreground="IndianRed"                     
                                Style="{StaticResource styleTextBlockGame}"
-                               Text="0"/>
+                               Text="{Binding NumberAttempts}"/>
                     
                     <TextBlock Name="TextBlock_Guessed" Grid.Row="1" Grid.Column="1" 
                                Foreground="DarkGreen"                     
-                               Style="{StaticResource styleTextBlockGame}" Text="0"/>
+                               Style="{StaticResource styleTextBlockGame}" 
+                               Text="{Binding Guessed}"/>
                     
                     <TextBlock Name="TextBlock_Status" Grid.Row="2" Grid.Column="1" 
                                Foreground="Black"                     
                                Style="{StaticResource styleTextBlockGame}" 
-                               Text="Начните игру"/>
-
+                               Text="{Binding Status}"/>
 
                 </Grid>
    
