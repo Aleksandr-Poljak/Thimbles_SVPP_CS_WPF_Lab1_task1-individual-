@@ -15,15 +15,15 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace SVPP_CS_WPF_Lab1_task1_individual__Thimbles
 {
 
-
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
-
+        // Содержит игровые счетчики.
         public UserGameData GameData = new UserGameData();
 
+        // Скорость игры.
         private Dictionary<string, int> speedVariants = new()
         { {"1x", 250 }, { "2x", 200 }, { "3x", 100 } };
         private int speed = 3000;
@@ -36,6 +36,7 @@ namespace SVPP_CS_WPF_Lab1_task1_individual__Thimbles
 
 
         }
+
         /// <summary>
         /// Обработчик нажатия копки Начать/Стоп.
         /// </summary>
@@ -60,6 +61,7 @@ namespace SVPP_CS_WPF_Lab1_task1_individual__Thimbles
                 Button_Stir.IsEnabled = false;
                 selectingGameOptionsEnabled(true);
                 GameData.Reset(); // Сброс игровых данных
+
                 // Устанавливает счетчик оставшихся поптыток на количество
                 // выбранное в ComboBox выбора попыток
                 ComboBoxItem selectedItem = (ComboBoxItem)ComboBox_NumberStirs.SelectedItem;
@@ -67,6 +69,7 @@ namespace SVPP_CS_WPF_Lab1_task1_individual__Thimbles
             }
 
         }
+
         /// <summary>
         /// Обработчик конпки Перемешать.
         /// </summary>
@@ -122,7 +125,6 @@ namespace SVPP_CS_WPF_Lab1_task1_individual__Thimbles
             if (speedKey != null)
             {
                 speedVariants.TryGetValue(speedKey, out speed);
-
             }
         }
         /// <summary>
@@ -145,13 +147,14 @@ namespace SVPP_CS_WPF_Lab1_task1_individual__Thimbles
         /// </summary>
         private void сheckNumberAttempts()
         {
+            // Если количество попыток исчерпано
             if (GameData.NumberAttempts == 0) 
             {
                
                 ComboBoxItem selectedItem = (ComboBoxItem)ComboBox_NumberStirs.SelectedItem;
-                int numberAttemps = int.Parse((string)selectedItem.Content);
-                int guessed = GameData.Guessed;
-                int notGuessed = numberAttemps - GameData.Guessed;
+                int numberAttemps = int.Parse((string)selectedItem.Content); // Общее к-во попыток
+                int guessed = GameData.Guessed; // Угадано
+                int notGuessed = numberAttemps - GameData.Guessed; //не угадано
 
                 string header = "Игра окончена";
                 string message = string.Empty;
@@ -161,7 +164,8 @@ namespace SVPP_CS_WPF_Lab1_task1_individual__Thimbles
 
                 message += $"\nКоличество попыток: {numberAttemps}\n" +
                     $"Угадано: {guessed}\nМимо: {notGuessed}";
-              
+
+                // Нажатие кнопки Стоп
                 Button_StartEnd_Click(Button_StartEnd, new RoutedEventArgs());
                 MessageBox.Show(message, header);
 
@@ -187,9 +191,7 @@ namespace SVPP_CS_WPF_Lab1_task1_individual__Thimbles
 
             // Проверка и уменьшение количества оставшихся попыток
             GameData.NumberAttempts--;
-            сheckNumberAttempts();
-            
+            сheckNumberAttempts();         
         }
-
     }
 }

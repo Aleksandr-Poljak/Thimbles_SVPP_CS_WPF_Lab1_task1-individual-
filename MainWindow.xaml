@@ -9,12 +9,13 @@
         Icon="Resources/icon1.ico"
         Title="Наперстки" Height="600" Width="800">
     <Window.Resources>
-        
+        <!--Кисть кнопок-->
         <LinearGradientBrush x:Key="StartButtonBrash"  EndPoint="0.5,1" StartPoint="0.5,0">
             <GradientStop Color="Black"/>
             <GradientStop Color="#FFCCD477" Offset="1"/>
         </LinearGradientBrush>
-
+        
+        <!--Стиль текстового блока пользовательского меню-->
         <Style x:Key="styleTextBlockUserMenu">
             <Setter Property="TextBlock.HorizontalAlignment" Value="Left"/>
             <Setter Property="TextBlock.VerticalAlignment" Value="Center"/>
@@ -26,11 +27,13 @@
             <Setter Property="TextBlock.FontSize" Value="17"/>
             <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
         </Style>
-        
+
+        <!--Стиль текстовго блока с информацией о игре-->
         <Style x:Key="styleTextBlockGame" BasedOn="{StaticResource styleTextBlockUserMenu}">
             <Setter Property="TextBlock.Foreground" Value="AntiqueWhite"/>
         </Style>
-        
+
+        <!--Стиль кнопок-->
         <Style x:Key="styleButtons">
             <Setter Property="Button.Background" Value="{StaticResource StartButtonBrash}"/>
             <Setter Property="Button.Foreground" Value="Black"/>
@@ -38,8 +41,9 @@
             <Setter Property="Button.FontFamily" Value="Verdana"/>
             <Setter Property="Button.FontWeight" Value="Bold"/>
         </Style>
-        
+       
     </Window.Resources>
+    
     <Grid x:Name="Grid_Main">
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -57,6 +61,7 @@
             <ColumnDefinition Width="1.3*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
+        
         <!--Пользовательский элемент упралвения из библиотеки пользовательских 
         элементов управления-->
         <th:UserControl_Thimbles Name="Thimbles" Grid.Row="1" Grid.Column="0" 
@@ -75,6 +80,7 @@
             Перемешать
         </Button>
 
+        <!--Грид с выбором скорости и количества попыток -->
         <Grid Name="Grid_UserMenu" Grid.Row="1" Grid.Column="1" Grid.RowSpan="2">
             <Grid.RowDefinitions>
                 <RowDefinition/>
@@ -97,13 +103,10 @@
             <ComboBox Name="ComboBox_NumberStirs" Grid.Row="0" Grid.Column="1"
                       Margin="20"
                       HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
-                      FontSize="16" FontWeight="Bold" SelectionChanged="ComboBox_NumberStirs_SelectionChanged"
-                      >
-                
-                    <ComboBoxItem IsSelected="True">1</ComboBoxItem>
+                      FontSize="16" FontWeight="Bold" SelectionChanged="ComboBox_NumberStirs_SelectionChanged">
+                <ComboBoxItem IsSelected="True">1</ComboBoxItem>
                     <ComboBoxItem>3</ComboBoxItem>
-                    <ComboBoxItem>5</ComboBoxItem>
-                
+                <ComboBoxItem>5</ComboBoxItem>
             </ComboBox>
 
             <TextBlock  Grid.Row="1" Grid.Column="0" 
@@ -135,7 +138,6 @@
                     Background="AntiqueWhite" Click="Button_StartEnd_Click"/>
 
 
-
             <GroupBox x:Name="GroupBox_GameText" Grid.Row="3" Grid.Column="0" 
                       Grid.RowSpan="3" Grid.ColumnSpan="3" Margin="10 0 10 15"
                       
@@ -145,6 +147,7 @@
                                FontWeight="Bold" Text="Игра"/>
                 </GroupBox.Header>
 
+                <!--грид с игровой информациейй-->
                 <Grid Name="Grid_GameText">
                     <Grid.RowDefinitions>
                         <RowDefinition/>
@@ -174,20 +177,16 @@
                                Foreground="DarkGreen"                     
                                Style="{StaticResource styleTextBlockGame}" 
                                Text="{Binding Guessed}"/>
-                    
+
                     <TextBlock Name="TextBlock_Status" Grid.Row="2" Grid.Column="1" 
                                Foreground="Black"                     
                                Style="{StaticResource styleTextBlockGame}" 
                                Text="{Binding Status}"/>
-
                 </Grid>
    
             </GroupBox>
             
-
-
         </Grid>
-
 
     </Grid>
 </Window>
